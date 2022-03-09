@@ -174,6 +174,22 @@ defmodule GenRMQ.Consumer do
   """
   @callback handle_message(message :: %GenRMQ.Message{}) :: :ok
 
+  @doc """
+  Invoked on hook event
+
+  `hook` - hook atom
+
+  ## Examples:
+  ```
+  def handle_hook(hook) do
+    # Do something after specified hook
+    :ok
+  end
+  ```
+
+  """
+  @callback handle_hook(hook :: atom()) :: :ok
+
   ##############################################################################
   # GenRMQ.Consumer API
   ##############################################################################
@@ -292,6 +308,7 @@ defmodule GenRMQ.Consumer do
     Logger.info("[#{module}]: RabbitMQ connection is down! Reason: #{inspect(reason)}")
 
     emit_connection_down_event(module, reason)
+    apply(module, :handle_hook, [:connection_down])
 
     config
     |> Keyword.get(:reconnect, true)
@@ -302,6 +319,7 @@ defmodule GenRMQ.Consumer do
   @impl GenServer
   def handle_info({:basic_consume_ok, %{consumer_tag: consumer_tag}}, %{module: module} = state) do
     Logger.info("[#{module}]: Broker confirmed consumer with tag #{consumer_tag}")
+    apply(module, :handle_hook, [:basic_consume_ok])
     {:noreply, state}
   end
 
@@ -309,6 +327,7 @@ defmodule GenRMQ.Consumer do
   @impl GenServer
   def handle_info({:basic_cancel, %{consumer_tag: consumer_tag}}, %{module: module} = state) do
     Logger.warn("[#{module}]: The consumer was unexpectedly cancelled, tag: #{consumer_tag}")
+    apply(module, :handle_hook, [:basic_cancel])
     {:stop, :cancelled, state}
   end
 
@@ -316,6 +335,7 @@ defmodule GenRMQ.Consumer do
   @impl GenServer
   def handle_info({:basic_cancel_ok, %{consumer_tag: consumer_tag}}, %{module: module} = state) do
     Logger.info("[#{module}]: Consumer was cancelled, tag: #{consumer_tag}")
+    apply(module, :handle_hook, [:basic_cancel_ok])
     {:noreply, state}
   end
 
