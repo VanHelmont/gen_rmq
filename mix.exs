@@ -7,7 +7,7 @@ defmodule GenRMQ.Mixfile do
     [
       app: :gen_rmq,
       version: @version,
-      elixir: "~> 1.11",
+      elixir: "~> 1.16",
       start_permanent: Mix.env() == :prod,
       elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
@@ -44,7 +44,7 @@ defmodule GenRMQ.Mixfile do
     [
       {:amqp, "~> 3.0"},
       {:telemetry, "~> 1.0"},
-      {:credo, "1.6.4", only: :dev},
+      {:credo, "~> 1.7", only: :dev},
       {:excoveralls, "~> 0.14", only: :test},
       {:jason, "~> 1.2", only: [:dev, :test]},
       {:earmark, "~> 1.4", only: :dev},

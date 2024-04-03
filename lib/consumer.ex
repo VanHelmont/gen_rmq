@@ -190,7 +190,7 @@ defmodule GenRMQ.Consumer do
   ```
   def handle_error(message, reason) do
     # Do something with message and reject it
-    Logger.warn("Failed to process message: #\{inspect(message)}")
+    Logger.warning("Failed to process message: #\{inspect(message)}")
 
     GenRMQ.Consumer.reject(message)
   end
@@ -402,7 +402,7 @@ defmodule GenRMQ.Consumer do
   @doc false
   @impl GenServer
   def handle_info({:basic_cancel, %{consumer_tag: consumer_tag}}, %{module: module} = state) do
-    Logger.warn("[#{module}]: The consumer was unexpectedly cancelled, tag: #{consumer_tag}")
+    Logger.warning("[#{module}]: The consumer was unexpectedly cancelled, tag: #{consumer_tag}")
     apply(module, :handle_hook, [:basic_cancel])
     {:stop, :cancelled, state}
   end

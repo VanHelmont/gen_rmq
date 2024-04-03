@@ -33,6 +33,10 @@ defmodule TestConsumer do
       "TestConsumer.Default"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
       GenRMQ.Consumer.reject(message)
     end
@@ -62,6 +66,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.WithoutConcurrency"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(message) do
@@ -97,6 +105,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.ErrorWithoutConcurrency"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(message) do
@@ -135,7 +147,12 @@ defmodule TestConsumer do
       "TestConsumer.WithoutReconnection"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(_message) do
+      :ok
     end
 
     def handle_error(message, _reason) do
@@ -157,6 +174,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.WithoutDeadletter"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(message) do
@@ -198,6 +219,10 @@ defmodule TestConsumer do
       "TestConsumer.WithQueueOptions"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
       GenRMQ.Consumer.reject(message)
     end
@@ -231,6 +256,10 @@ defmodule TestConsumer do
       "TestConsumer.WithCustomDeadletter"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(message) do
       GenRMQ.Consumer.reject(message)
     end
@@ -256,6 +285,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.WithCustomDeadletterExchangeType"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(message) do
@@ -288,6 +321,10 @@ defmodule TestConsumer do
       "TestConsumer.WithPriority"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(message) do
       payload = Jason.decode!(message.payload)
       Agent.update(__MODULE__, &MapSet.put(&1, payload))
@@ -312,6 +349,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.WithTopicExchange"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
@@ -344,6 +385,10 @@ defmodule TestConsumer do
       "TestConsumer.WithDirectExchange"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
       GenRMQ.Consumer.reject(message)
     end
@@ -372,6 +417,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.WithFanoutExchange"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
@@ -405,6 +454,10 @@ defmodule TestConsumer do
       "TestConsumer.WithMultiBindingExchange"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
       GenRMQ.Consumer.reject(message)
     end
@@ -433,6 +486,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.WithDefaultExchange"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
@@ -467,6 +524,10 @@ defmodule TestConsumer do
       "TestConsumer.RedeclaringExistingExchange"
     end
 
+    def handle_hook(_hook) do
+      :ok
+    end
+
     def handle_message(_), do: :ok
 
     def handle_error(message, _reason) do
@@ -489,6 +550,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.WithQueueOptionsWithoutArguments"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(%GenRMQ.Message{payload: "\"reject\""} = message) do
@@ -525,6 +590,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.ErrorInConsumer"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(message) do
@@ -566,6 +635,10 @@ defmodule TestConsumer do
 
     def consumer_tag() do
       "TestConsumer.SlowConsumer"
+    end
+
+    def handle_hook(_hook) do
+      :ok
     end
 
     def handle_message(message) do
