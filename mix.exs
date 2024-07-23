@@ -43,6 +43,7 @@ defmodule GenRMQ.Mixfile do
   defp deps do
     [
       {:amqp, "~> 3.0"},
+      {:rabbit_common, "~> 3.13.4", override: true}, # FIX OTP 27
       {:telemetry, "~> 1.0"},
       {:credo, "~> 1.7", only: :dev},
       {:excoveralls, "~> 0.14", only: :test},
